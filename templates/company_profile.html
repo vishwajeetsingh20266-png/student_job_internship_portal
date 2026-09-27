@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= COMPANY PROFILE HEADER ================= -->
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            Company Profile
+        </h1>
+
+        <p>
+            This information is visible to candidates.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= COMPANY PROFILE FORM ================= -->
+
+<form
+    class="panel"
+    method="post"
+>
+
+
+    <div class="grid2">
+
+
+        <!-- Recruiter Name -->
+
+        <div>
+
+            <label>
+                Recruiter Name
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                value="{{ company.name }}"
+            >
+
+        </div>
+
+
+
+        <!-- Company Name -->
+
+        <div>
+
+            <label>
+                Company Name
+            </label>
+
+            <input
+                type="text"
+                name="company_name"
+                value="{{ company.company_name }}"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- HR / Recruiter -->
+
+        <div>
+
+            <label>
+                HR / Recruiter
+            </label>
+
+            <input
+                type="text"
+                name="recruiter_name"
+                value="{{ company.recruiter_name }}"
+            >
+
+        </div>
+
+
+
+        <!-- Phone -->
+
+        <div>
+
+            <label>
+                Phone
+            </label>
+
+            <input
+                type="tel"
+                name="phone"
+                value="{{ company.phone }}"
+            >
+
+        </div>
+
+
+
+        <!-- Location -->
+
+        <div>
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                name="company_location"
+                value="{{ company.company_location }}"
+            >
+
+        </div>
+
+
+
+        <!-- Website -->
+
+        <div>
+
+            <label>
+                Website
+            </label>
+
+            <input
+                type="url"
+                name="website"
+                value="{{ company.website }}"
+                placeholder="https://example.com"
+            >
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- Company Description -->
+
+    <label>
+        Company Description
+    </label>
+
+    <textarea
+        name="company_description"
+        placeholder="Tell candidates about your company..."
+    >{{ company.company_description }}</textarea>
+
+
+
+    <!-- Save Button -->
+
+    <button
+        type="submit"
+        class="btn"
+    >
+        Save Company Profile
+    </button>
+
+
+</form>
+
+
+{% endblock %}

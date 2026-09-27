@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="top">
+  <div>
+    <div class="eyebrow">ADMIN SETTINGS</div>
+    <h1>Account Settings</h1>
+    <p>Change the Admin login email/username and password securely.</p>
+  </div>
+  <a class="btn ghost" href="{{ url_for('admin') }}">← Back to Dashboard</a>
+</div>
+
+<div class="settings-grid">
+  <div class="panel settings-card">
+    <div class="settings-icon">A</div>
+    <h2>Admin Credentials</h2>
+    <p class="settings-note">Update the credentials used to access the Admin Control Center.</p>
+    <form method="post">
+      <label>Admin Username / Email</label>
+      <input type="email" name="email" value="{{ user.email }}" required>
+
+      <label>Current Password</label>
+      <input type="password" name="current_password" placeholder="Enter current password" required>
+
+      <label>New Password</label>
+      <input type="password" name="new_password" placeholder="Leave blank to keep current password" minlength="6">
+
+      <label>Confirm New Password</label>
+      <input type="password" name="confirm_password" placeholder="Confirm new password" minlength="6">
+
+      <button class="btn" type="submit">Update Credentials</button>
+    </form>
+  </div>
+
+  <div class="panel security-card">
+    <div class="security-head"><span class="tag">SECURITY</span><span>✓</span></div>
+    <h2>Admin-only Access</h2>
+    <p>Only the currently logged-in Admin can change these credentials.</p>
+    <div class="security-list">
+      <div><b>Username / Email</b><span>Can be changed anytime</span></div>
+      <div><b>Password</b><span>Minimum 6 characters</span></div>
+      <div><b>Current Password</b><span>Required before every update</span></div>
+      <div><b>Login Session</b><span>Remains active after update</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

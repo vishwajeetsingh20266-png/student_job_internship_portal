@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="top">
+  <div>
+    <div class="eyebrow">CONTROL CENTER</div>
+    <h1>Admin Dashboard</h1>
+    <p>Complete access to students, companies, jobs and applications.</p>
+  </div>
+</div>
+
+<div class="cards admin-cards">
+  <div><span>Total Users</span><strong>{{counts.users}}</strong></div>
+  <div><span>Students</span><strong>{{counts.students}}</strong></div>
+  <div><span>Companies</span><strong>{{counts.companies}}</strong></div>
+  <div><span>Jobs</span><strong>{{counts.jobs}}</strong></div>
+  <div><span>Applications</span><strong>{{counts.applications}}</strong></div>
+</div>
+
+<div class="admin-section-grid">
+  <div class="section">
+    <div class="section-head"><div><h2>Student Accounts</h2><p>See every registered student and their profile details.</p></div><span class="pill">{{students|length}} Students</span></div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Student</th><th>Education</th><th>Skills</th><th>Contact</th><th>Resume</th><th>Access</th></tr></thead>
+        <tbody>
+        {% for u in students %}
+          <tr>
+            <td><b>{{u.name}}</b><small>{{u.email}}</small></td>
+            <td>{{u.education or '—'}}</td>
+            <td>{{u.skills or '—'}}</td>
+            <td>{{u.phone or '—'}}<small>{{u.location or ''}}</small></td>
+            <td>{% if u.resume %}<a class="mini-link" href="{{url_for('resume',user_id=u.id)}}" target="_blank">View Resume</a>{% else %}<span class="muted">Not uploaded</span>{% endif %}</td>
+            <td><form method="post" action="{{url_for('admin_delete_user',user_id=u.id)}}" onsubmit="return confirm('Remove this student account and its applications?')"><button class="btn danger small">Remove</button></form></td>
+          </tr>
+        {% else %}<tr><td colspan="6" class="empty-cell">No students registered yet.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div><h2>Company Accounts</h2><p>See companies, recruiters and control their access.</p></div><span class="pill">{{companies|length}} Companies</span></div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Company</th><th>Recruiter</th><th>Location</th><th>Jobs</th><th>Contact</th><th>Access</th></tr></thead>
+        <tbody>
+        {% for c in companies %}
+          {% set company_jobs = jobs|selectattr('company_id','equalto',c.id)|list %}
+          <tr>
+            <td><b>{{c.company_name or c.name}}</b><small>{{c.email}}</small></td>
+            <td>{{c.recruiter_name or c.name}}</td>
+            <td>{{c.company_location or c.location or '—'}}</td>
+            <td><span class="tag">{{company_jobs|length}} posted</span></td>
+            <td>{{c.phone or '—'}}<small>{{c.website or ''}}</small></td>
+            <td><form method="post" action="{{url_for('admin_delete_user',user_id=c.id)}}" onsubmit="return confirm('Remove this company, all its jobs and related applications?')"><button class="btn danger small">Remove Company</button></form></td>
+          </tr>
+        {% else %}<tr><td colspan="6" class="empty-cell">No company accounts registered yet.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head"><div><h2>All Jobs & Internships</h2><p>Admin can see and remove any opportunity posted by a company or admin.</p></div><a class="btn" href="#add-opportunity">+ Add Opportunity</a></div>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead><tr><th>Opportunity</th><th>Company</th><th>Type</th><th>Mode</th><th>Location</th><th>Deadline</th><th>Access</th></tr></thead>
+      <tbody>
+      {% for j in jobs %}
+        <tr>
+          <td><b>{{j.title}}</b><small>{{j.skills or 'No skills specified'}}</small></td>
+          <td>{{j.company}}{% if j.owner %}<small>Recruiter: {{j.owner.recruiter_name or j.owner.name}}</small>{% else %}<small>Admin posted</small>{% endif %}</td>
+          <td>{{j.job_type}}</td><td>{{j.mode}}</td><td>{{j.location}}</td><td>{{j.deadline or '—'}}</td>
+          <td><form method="post" action="{{url_for('admin_delete_job',job_id=j.id)}}" onsubmit="return confirm('Remove this job and all applications for it?')"><button class="btn danger small">Remove</button></form></td>
+        </tr>
+      {% else %}<tr><td colspan="7" class="empty-cell">No jobs available.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section" id="add-opportunity">
+  <div class="section-head"><div><h2>Add Opportunity</h2><p>Create a job or internship directly as Admin.</p></div></div>
+  <form class="panel" method="post" action="{{url_for('admin_add_job')}}">
+    <div class="grid2">
+      <input name="title" placeholder="Job / Internship Title" required>
+      <input name="company" placeholder="Company" required>
+      <input name="location" placeholder="Location">
+      <select name="job_type"><option>Internship</option><option>Full Time</option><option>Part Time</option></select>
+      <select name="mode"><option>Hybrid</option><option>Remote</option><option>On-site</option></select>
+      <input name="salary" placeholder="Salary / Stipend">
+      <input name="skills" placeholder="Skills">
+      <input name="deadline" placeholder="Deadline">
+    </div>
+    <textarea name="description" placeholder="Job description"></textarea>
+    <button class="btn">Add Opportunity</button>
+  </form>
+</div>
+
+<div class="section">
+  <div class="section-head"><div><h2>All Applications</h2><p>Track who applied to which company/job and change status.</p></div></div>
+  {% for a in applications %}
+    <div class="applicant admin-application">
+      <div class="candidate">
+        <div class="avatar">{{a.student.name[0]|upper}}</div>
+        <div><b>{{a.student.name}}</b><small>{{a.student.email}} · {{a.student.phone or 'No phone'}}</small><small>{{a.job.title}} · {{a.job.company}}</small></div>
+      </div>
+      <div class="application-meta"><span class="status">{{a.status}}</span><small>Applied {{a.applied_at.strftime('%d %b %Y') if a.applied_at else ''}}</small></div>
+      <div class="actions">
+        {% if a.student.resume %}<a class="btn ghost small" href="{{url_for('resume',user_id=a.student.id)}}" target="_blank">Resume</a>{% endif %}
+        {% for s in ['Under Review','Shortlisted','Interview','Selected','Rejected'] %}
+          <form method="post" action="{{url_for('admin_status',app_id=a.id,status=s)}}"><button class="btn ghost small">{{s}}</button></form>
+        {% endfor %}
+        <form method="post" action="{{url_for('admin_delete_application',app_id=a.id)}}" onsubmit="return confirm('Remove this application?')"><button class="btn danger small">Delete</button></form>
+      </div>
+    </div>
+  {% else %}<div class="empty">No applications yet.</div>{% endfor %}
+</div>
+{% endblock %}

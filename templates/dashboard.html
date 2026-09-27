@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= DASHBOARD HEADER ================= -->
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            Good day, {{ user.name }} 👋
+        </h1>
+
+        <p>
+            Find opportunities and track your career journey.
+        </p>
+
+    </div>
+
+
+    <a
+        class="btn"
+        href="{{ url_for('jobs') }}"
+    >
+        Explore Jobs
+    </a>
+
+</div>
+
+
+
+<!-- ================= APPLICATION STATISTICS ================= -->
+
+<div class="cards">
+
+
+    <div>
+
+        <span>
+            Total Applications
+        </span>
+
+        <strong>
+            {{ counts.applications }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Shortlisted
+        </span>
+
+        <strong>
+            {{ counts.shortlisted }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Interviews
+        </span>
+
+        <strong>
+            {{ counts.interviews }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Selected
+        </span>
+
+        <strong>
+            {{ counts.selected }}
+        </strong>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= LATEST OPPORTUNITIES ================= -->
+
+<div class="section">
+
+
+    <div class="section-head">
+
+        <h2>
+            Latest Opportunities
+        </h2>
+
+
+        <a href="{{ url_for('jobs') }}">
+            View all
+        </a>
+
+    </div>
+
+
+
+    <div class="job-grid">
+
+
+        {% for job in jobs %}
+
+
+        <div class="job-card">
+
+
+            <span class="tag">
+                {{ job.job_type }}
+            </span>
+
+
+            <h3>
+                {{ job.title }}
+            </h3>
+
+
+            <p>
+                {{ job.company }}
+                ·
+                {{ job.location }}
+            </p>
+
+
+            <small>
+                {{ job.mode }}
+                ·
+                {{ job.salary }}
+            </small>
+
+
+            <br>
+
+
+            <a
+                class="btn ghost"
+                href="{{ url_for('job_detail', job_id=job.id) }}"
+            >
+                View Details
+            </a>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= RECENT APPLICATIONS ================= -->
+
+<div class="section">
+
+
+    <div class="section-head">
+
+        <h2>
+            Recent Applications
+        </h2>
+
+
+        <a href="{{ url_for('applications') }}">
+            View all
+        </a>
+
+    </div>
+
+
+
+    {% for a in applications %}
+
+
+    <div class="row">
+
+
+        <div>
+
+            <b>
+                {{ a.job.title }}
+            </b>
+
+
+            <small>
+
+                {{ a.job.company }}
+
+                ·
+
+                {{ a.applied_at.strftime('%d %b %Y') }}
+
+            </small>
+
+        </div>
+
+
+
+        <span
+            class="status {{ a.status | lower | replace(' ', '-') }}"
+        >
+            {{ a.status }}
+        </span>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <div class="empty">
+
+        No applications yet.
+
+    </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+{% endblock %}

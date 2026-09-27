@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-shell">
+  <section class="auth-visual">
+    <div class="auth-brand">Career<span>Hub</span></div>
+    <div class="visual-copy">
+      <span class="eyebrow">CAREER • JOBS • INTERNSHIPS</span>
+      <h1>Build your career.<br><span>Find what is next.</span></h1>
+      <p>Connect students with companies, internships and real career opportunities through one professional platform.</p>
+      <div class="feature-list">
+        <div><b>01</b><span>Discover jobs & internships</span></div>
+        <div><b>02</b><span>Apply with your profile & resume</span></div>
+        <div><b>03</b><span>Track interviews & selection</span></div>
+      </div>
+    </div>
+    <div class="visual-footer">CareerHub <span>•</span> Student Job & Internship Portal</div>
+  </section>
+
+  <section class="auth-panel">
+    <div class="auth-form-wrap">
+      <div class="mobile-brand">Career<span>Hub</span></div>
+      <div class="form-icon">CH</div>
+      <div class="auth-kicker">WELCOME BACK</div>
+      <h2>Sign in to your account</h2>
+      <p class="auth-subtitle">Continue your journey with CareerHub.</p>
+      <form method="post" class="auth-form">
+        <label>Email address</label>
+        <div class="input-wrap"><span>✉</span><input type="email" name="email" placeholder="you@example.com" required></div>
+        <label>Password</label>
+        <div class="input-wrap"><span>••</span><input type="password" name="password" placeholder="Enter your password" required></div>
+        <button class="btn full auth-btn">Sign in <span>→</span></button>
+      </form>
+      
+      <p class="center auth-bottom">New to CareerHub? <a href="{{url_for('register')}}">Create an account <span>→</span></a></p>
+    </div>
+  </section>
+</div>
+{% endblock %}

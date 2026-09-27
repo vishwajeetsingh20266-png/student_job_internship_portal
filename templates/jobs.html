@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            Jobs & Internships
+        </h1>
+
+        <p>
+            Search opportunities matching your skills.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= SEARCH & FILTER ================= -->
+
+<form
+    class="search"
+    method="get"
+>
+
+
+    <!-- Search Input -->
+
+    <input
+        type="text"
+        name="q"
+        value="{{ q }}"
+        placeholder="Search role, company or skill"
+    >
+
+
+
+    <!-- Work Mode Filter -->
+
+    <select name="mode">
+
+        <option value="">
+            All modes
+        </option>
+
+
+        <option
+            value="Remote"
+            {% if mode == 'Remote' %}
+                selected
+            {% endif %}
+        >
+            Remote
+        </option>
+
+
+        <option
+            value="Hybrid"
+            {% if mode == 'Hybrid' %}
+                selected
+            {% endif %}
+        >
+            Hybrid
+        </option>
+
+
+        <option
+            value="On-site"
+            {% if mode == 'On-site' %}
+                selected
+            {% endif %}
+        >
+            On-site
+        </option>
+
+    </select>
+
+
+
+    <!-- Search Button -->
+
+    <button
+        class="btn"
+        type="submit"
+    >
+        Search
+    </button>
+
+
+</form>
+
+
+
+<!-- ================= JOB GRID ================= -->
+
+<div class="job-grid">
+
+
+    {% for job in jobs %}
+
+
+    <!-- ================= JOB CARD ================= -->
+
+    <div class="job-card">
+
+
+        <!-- Job Type -->
+
+        <span class="tag">
+            {{ job.job_type }}
+        </span>
+
+
+
+        <!-- Job Title -->
+
+        <h3>
+            {{ job.title }}
+        </h3>
+
+
+
+        <!-- Company -->
+
+        <p>
+            {{ job.company }}
+        </p>
+
+
+
+        <!-- Location & Mode -->
+
+        <p>
+            {{ job.location }}
+            ·
+            {{ job.mode }}
+        </p>
+
+
+
+        <!-- Salary -->
+
+        <strong>
+            {{ job.salary }}
+        </strong>
+
+
+
+        <!-- Required Skills -->
+
+        <div class="skills">
+            {{ job.skills }}
+        </div>
+
+
+
+        <!-- View & Apply Button -->
+
+        <a
+            class="btn ghost"
+            href="{{ url_for('job_detail', job_id=job.id) }}"
+        >
+            View & Apply
+        </a>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- ================= NO JOBS ================= -->
+
+    <div class="empty">
+
+        No opportunities found.
+
+    </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+{% endblock %}

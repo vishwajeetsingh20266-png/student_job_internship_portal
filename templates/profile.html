@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            My Profile & Resume
+        </h1>
+
+        <p>
+            Complete your profile before applying to opportunities.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= PROFILE FORM ================= -->
+
+<form
+    class="panel"
+    method="post"
+    enctype="multipart/form-data"
+>
+
+
+    <div class="grid2">
+
+
+        <!-- ================= FULL NAME ================= -->
+
+        <div>
+
+            <label>
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                value="{{ user.name }}"
+                required
+            >
+
+        </div>
+
+
+
+        <!-- ================= EMAIL ================= -->
+
+        <div>
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                value="{{ user.email }}"
+                disabled
+            >
+
+        </div>
+
+
+
+        <!-- ================= PHONE ================= -->
+
+        <div>
+
+            <label>
+                Phone
+            </label>
+
+            <input
+                type="tel"
+                name="phone"
+                value="{{ user.phone }}"
+            >
+
+        </div>
+
+
+
+        <!-- ================= LOCATION ================= -->
+
+        <div>
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                name="location"
+                value="{{ user.location }}"
+            >
+
+        </div>
+
+
+
+        <!-- ================= EDUCATION ================= -->
+
+        <div>
+
+            <label>
+                Education
+            </label>
+
+            <input
+                type="text"
+                name="education"
+                value="{{ user.education }}"
+            >
+
+        </div>
+
+
+
+        <!-- ================= SKILLS ================= -->
+
+        <div>
+
+            <label>
+                Skills
+            </label>
+
+            <input
+                type="text"
+                name="skills"
+                value="{{ user.skills }}"
+            >
+
+        </div>
+
+
+
+        <!-- ================= LINKEDIN ================= -->
+
+        <div>
+
+            <label>
+                LinkedIn
+            </label>
+
+            <input
+                type="url"
+                name="linkedin"
+                value="{{ user.linkedin }}"
+            >
+
+        </div>
+
+
+
+        <!-- ================= GITHUB ================= -->
+
+        <div>
+
+            <label>
+                GitHub
+            </label>
+
+            <input
+                type="url"
+                name="github"
+                value="{{ user.github }}"
+            >
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= PROFESSIONAL BIO ================= -->
+
+    <label>
+        Professional Bio
+    </label>
+
+    <textarea
+        name="bio"
+        placeholder="Write a short professional introduction..."
+    >{{ user.bio }}</textarea>
+
+
+
+    <!-- ================= RESUME UPLOAD ================= -->
+
+    <label>
+        Resume (PDF / DOC / DOCX, max 5 MB)
+    </label>
+
+    <input
+        type="file"
+        name="resume"
+        accept=".pdf,.doc,.docx"
+    >
+
+
+
+    <!-- ================= RESUME STATUS ================= -->
+
+    <div class="resume-box">
+
+
+        {% if user.resume %}
+
+
+            <span>
+                ✓ Resume uploaded:
+                {{ user.resume }}
+            </span>
+
+
+            <a
+                class="btn ghost"
+                href="{{ url_for('resume', user_id=user.id) }}"
+                target="_blank"
+            >
+                View Resume
+            </a>
+
+
+        {% else %}
+
+
+            <span>
+                No resume uploaded yet.
+            </span>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- ================= SAVE BUTTON ================= -->
+
+    <button
+        class="btn"
+        type="submit"
+    >
+        Save Profile & Resume
+    </button>
+
+
+</form>
+
+
+{% endblock %}

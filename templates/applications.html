@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="top">
+    <div>
+        <h1>My Applications</h1>
+        <p>
+            Track every application, interview and final decision.
+        </p>
+    </div>
+</div>
+
+
+{% for a in applications %}
+
+<div class="application">
+
+    <div>
+        <span class="tag">
+            {{ a.job.job_type }}
+        </span>
+
+        <h3>
+            {{ a.job.title }}
+        </h3>
+
+        <p>
+            {{ a.job.company }} · {{ a.job.location }}
+        </p>
+
+        <small>
+            Applied {{ a.applied_at.strftime('%d %b %Y') }}
+        </small>
+    </div>
+
+
+    <div class="right">
+
+        <span class="status {{ a.status|lower|replace(' ','-') }}">
+            {{ a.status }}
+        </span>
+
+
+        {% if a.status == 'Interview' %}
+
+        <div class="interview">
+
+            <b>
+                Interview:
+                {{ a.interview_date }}
+                at
+                {{ a.interview_time }}
+            </b>
+
+            <span>
+                {{ a.interview_type }}
+            </span>
+
+
+            {% if a.meeting_link %}
+
+            <a
+                href="{{ a.meeting_link }}"
+                target="_blank"
+            >
+                Join Meeting
+            </a>
+
+            {% endif %}
+
+
+            <small>
+                {{ a.interview_message }}
+            </small>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+<div class="empty">
+    You have not applied to any job yet.
+</div>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= BACK TO JOBS ================= -->
+
+<a
+    class="back"
+    href="{{ url_for('jobs') }}"
+>
+    ← Back to jobs
+</a>
+
+
+
+<!-- ================= JOB DETAILS ================= -->
+
+<div class="detail">
+
+
+    <!-- ================= JOB INFORMATION ================= -->
+
+    <div>
+
+
+        <span class="tag">
+            {{ job.job_type }}
+        </span>
+
+
+        <h1>
+            {{ job.title }}
+        </h1>
+
+
+        <h3>
+            {{ job.company }}
+        </h3>
+
+
+        <p>
+            {{ job.location }}
+            ·
+            {{ job.mode }}
+            ·
+            {{ job.salary }}
+        </p>
+
+
+
+        <!-- ================= ABOUT ROLE ================= -->
+
+        <h2>
+            About the role
+        </h2>
+
+
+        <p>
+            {{ job.description }}
+        </p>
+
+
+
+        <!-- ================= REQUIRED SKILLS ================= -->
+
+        <h2>
+            Required Skills
+        </h2>
+
+
+        <div class="skills">
+            {{ job.skills }}
+        </div>
+
+
+
+        <!-- ================= DEADLINE ================= -->
+
+        <h3>
+            Application Deadline:
+            {{ job.deadline }}
+        </h3>
+
+
+    </div>
+
+
+
+    <!-- ================= APPLY BOX ================= -->
+
+    <div class="apply-box">
+
+
+        {% if session.get('role') == 'student' %}
+
+
+            {% if applied %}
+
+
+                <!-- ================= ALREADY APPLIED ================= -->
+
+                <div class="status big">
+                    {{ applied.status }}
+                </div>
+
+
+                <p>
+                    You already applied for this opportunity.
+                </p>
+
+
+            {% else %}
+
+
+                <!-- ================= APPLY NOW ================= -->
+
+                <h2>
+                    Ready to apply?
+                </h2>
+
+
+                <p>
+                    Your profile and resume will be shared with the recruiter.
+                </p>
+
+
+                <form
+                    method="post"
+                    action="{{ url_for('apply', job_id=job.id) }}"
+                >
+
+                    <button
+                        class="btn full"
+                        type="submit"
+                    >
+                        Apply Now
+                    </button>
+
+                </form>
+
+
+            {% endif %}
+
+
+        {% else %}
+
+
+            <!-- ================= LOGIN MESSAGE ================= -->
+
+            <p>
+                Login as a student to apply.
+            </p>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

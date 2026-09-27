@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-shell register-shell">
+  <section class="auth-visual">
+    <div class="auth-brand">Career<span>Hub</span></div>
+    <div class="visual-copy">
+      <span class="eyebrow">JOIN THE PLATFORM</span>
+      <h1>Create your<br><span>career profile.</span></h1>
+      <p>Students can discover opportunities. Companies can hire talent. Admins manage the complete recruitment ecosystem.</p>
+      <div class="feature-list">
+        <div><b>01</b><span>Student profiles & resumes</span></div>
+        <div><b>02</b><span>Company hiring dashboard</span></div>
+        <div><b>03</b><span>Applications & interviews</span></div>
+      </div>
+    </div>
+    <div class="visual-footer">CareerHub <span>•</span> One platform, three roles</div>
+  </section>
+  <section class="auth-panel register-panel">
+    <div class="auth-form-wrap wide-auth">
+      <div class="mobile-brand">Career<span>Hub</span></div>
+      <div class="auth-kicker">GET STARTED</div>
+      <h2>Create your account</h2>
+      <p class="auth-subtitle">Choose your role and set up your profile.</p>
+      <form method="post" class="auth-form">
+        <div class="grid2 auth-grid">
+          <div><label>Account type</label><select name="role" id="role" onchange="toggleRole()"><option value="student">Student</option><option value="company">Company / Recruiter</option></select></div>
+          <div><label>Name / Recruiter name</label><input name="name" placeholder="Your full name" required></div>
+          <div><label>Email address</label><input type="email" name="email" placeholder="you@example.com" required></div>
+          <div><label>Password</label><input type="password" name="password" placeholder="Minimum 6 characters" minlength="6" required></div>
+        </div>
+        <div id="studentFields">
+          <div class="grid2 auth-grid"><div><label>Education</label><input name="education" placeholder="BCS / BCA / BE"></div><div><label>Skills</label><input name="skills" placeholder="Python, SQL, AWS"></div></div>
+        </div>
+        <div id="companyFields" style="display:none">
+          <div class="grid2 auth-grid"><div><label>Company name</label><input name="company_name"></div><div><label>Recruiter phone</label><input name="phone"></div><div><label>Company location</label><input name="company_location"></div><div><label>Website</label><input name="website"></div></div>
+          <label>Company description</label><textarea name="company_description" placeholder="Tell candidates about your company..."></textarea>
+          <label>Recruiter name</label><input name="recruiter_name">
+        </div>
+        <button class="btn full auth-btn">Create account <span>→</span></button>
+      </form>
+      <p class="center auth-bottom">Already registered? <a href="{{url_for('login')}}">Sign in <span>→</span></a></p>
+    </div>
+  </section>
+</div>
+<script>function toggleRole(){const company=document.getElementById('role').value==='company';document.getElementById('companyFields').style.display=company?'block':'none';document.getElementById('studentFields').style.display=company?'none':'block'}</script>
+{% endblock %}

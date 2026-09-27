@@ -1,0 +1,508 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= COMPANY HEADER ================= -->
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            {{ company.company_name or company.name }}
+            Dashboard
+        </h1>
+
+        <p>
+            Manage jobs, applicants, shortlisting and interviews.
+        </p>
+
+    </div>
+
+
+    <a
+        class="btn"
+        href="{{ url_for('company_add_job') }}"
+    >
+        + Post Opportunity
+    </a>
+
+</div>
+
+
+
+<!-- ================= STATISTICS CARDS ================= -->
+
+<div class="cards">
+
+
+    <div>
+
+        <span>
+            Active Jobs
+        </span>
+
+        <strong>
+            {{ counts.jobs }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Total Applications
+        </span>
+
+        <strong>
+            {{ counts.applications }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Shortlisted
+        </span>
+
+        <strong>
+            {{ counts.shortlisted }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Interviews
+        </span>
+
+        <strong>
+            {{ counts.interviews }}
+        </strong>
+
+    </div>
+
+
+    <div>
+
+        <span>
+            Selected
+        </span>
+
+        <strong>
+            {{ counts.selected }}
+        </strong>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================= COMPANY JOBS ================= -->
+
+<div class="section">
+
+
+    <div class="section-head">
+
+        <h2>
+            Your Opportunities
+        </h2>
+
+    </div>
+
+
+    {% for j in jobs %}
+
+
+    <div class="row">
+
+
+        <div>
+
+            <b>
+                {{ j.title }}
+            </b>
+
+            <small>
+                {{ j.job_type }}
+                ·
+                {{ j.location }}
+                ·
+                {{ j.mode }}
+            </small>
+
+        </div>
+
+
+        <span class="pill">
+
+            {{ j.applications|length }}
+
+            applicants
+
+        </span>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <div class="empty">
+
+        No jobs posted yet.
+
+    </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+
+<!-- ================= APPLICANTS ================= -->
+
+<div class="section">
+
+
+    <div class="section-head">
+
+        <h2>
+            Applicants
+        </h2>
+
+    </div>
+
+
+
+    {% for a in applications %}
+
+
+    <!-- Applicant Card -->
+
+    <div class="applicant">
+
+
+        <!-- Student Information -->
+
+        <div class="candidate">
+
+
+            <div class="avatar">
+
+                {{ a.student.name[0] | upper }}
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    {{ a.student.name }}
+                </b>
+
+
+                <small>
+                    {{ a.student.email }}
+                    ·
+                    {{ a.job.title }}
+                </small>
+
+
+                <small>
+
+                    {{ a.student.education }}
+
+                    ·
+
+                    {{ a.student.skills }}
+
+                </small>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Applicant Actions -->
+
+        <div class="actions">
+
+
+            <!-- Current Status -->
+
+            <span class="status">
+
+                {{ a.status }}
+
+            </span>
+
+
+
+            <!-- Update Status -->
+
+            <form
+                method="post"
+                action="{{ url_for('company_status', app_id=a.id) }}"
+            >
+
+
+                <select name="status">
+
+
+                    <option
+                        value="Under Review"
+                        {% if a.status == 'Under Review' %}
+                        selected
+                        {% endif %}
+                    >
+                        Under Review
+                    </option>
+
+
+                    <option
+                        value="Shortlisted"
+                        {% if a.status == 'Shortlisted' %}
+                        selected
+                        {% endif %}
+                    >
+                        Shortlisted
+                    </option>
+
+
+                    <option
+                        value="Selected"
+                        {% if a.status == 'Selected' %}
+                        selected
+                        {% endif %}
+                    >
+                        Selected
+                    </option>
+
+
+                    <option
+                        value="Rejected"
+                        {% if a.status == 'Rejected' %}
+                        selected
+                        {% endif %}
+                    >
+                        Rejected
+                    </option>
+
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="btn small"
+                >
+                    Update
+                </button>
+
+
+            </form>
+
+
+
+            <!-- Resume -->
+
+            {% if a.student.resume %}
+
+
+            <a
+                class="btn ghost small"
+                href="{{ url_for('resume', user_id=a.student.id) }}"
+                target="_blank"
+            >
+                View Resume
+            </a>
+
+
+            {% endif %}
+
+
+
+            <!-- Interview Button -->
+
+            <button
+                type="button"
+                class="btn ghost small"
+                onclick="document.getElementById('iv{{ a.id }}').style.display='block'"
+            >
+                Interview
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= INTERVIEW FORM ================= -->
+
+    <div
+        id="iv{{ a.id }}"
+        class="interview-form"
+    >
+
+
+        <form
+            method="post"
+            action="{{ url_for('company_interview', app_id=a.id) }}"
+        >
+
+
+            <div class="grid2">
+
+
+                <!-- Interview Date -->
+
+                <div>
+
+                    <label>
+                        Interview Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="interview_date"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Interview Time -->
+
+                <div>
+
+                    <label>
+                        Interview Time
+                    </label>
+
+                    <input
+                        type="time"
+                        name="interview_time"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Interview Type -->
+
+                <div>
+
+                    <label>
+                        Interview Type
+                    </label>
+
+                    <select name="interview_type">
+
+                        <option value="Online">
+                            Online
+                        </option>
+
+                        <option value="Offline">
+                            Offline
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Meeting Link -->
+
+                <div>
+
+                    <label>
+                        Meeting Link
+                    </label>
+
+                    <input
+                        type="url"
+                        name="meeting_link"
+                        placeholder="https://meet.google.com/..."
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Interview Message -->
+
+            <label>
+                Interview Message
+            </label>
+
+
+            <textarea
+                name="interview_message"
+                placeholder="Interview instructions..."
+            ></textarea>
+
+
+
+            <!-- Schedule Button -->
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Schedule Interview
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+
+    {% else %}
+
+
+    <!-- No Applicants -->
+
+    <div class="empty">
+
+        No applicants yet.
+
+    </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+
+{% endblock %}

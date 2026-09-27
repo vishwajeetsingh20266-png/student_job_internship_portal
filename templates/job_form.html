@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<!-- ================= PAGE HEADER ================= -->
+
+<div class="top">
+
+    <div>
+
+        <h1>
+            Post Job / Internship
+        </h1>
+
+        <p>
+            Publish a new opportunity for students.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= JOB POST FORM ================= -->
+
+<form
+    class="panel"
+    method="post"
+>
+
+
+    <div class="grid2">
+
+
+        <!-- ================= JOB TITLE ================= -->
+
+        <div>
+
+            <label>
+                Job Title
+            </label>
+
+            <input
+                type="text"
+                name="title"
+                required
+                placeholder="Python Developer Intern"
+            >
+
+        </div>
+
+
+
+        <!-- ================= LOCATION ================= -->
+
+        <div>
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                name="location"
+                required
+                placeholder="Pune / Remote"
+            >
+
+        </div>
+
+
+
+        <!-- ================= JOB TYPE ================= -->
+
+        <div>
+
+            <label>
+                Job Type
+            </label>
+
+            <select name="job_type">
+
+                <option>
+                    Internship
+                </option>
+
+                <option>
+                    Full Time
+                </option>
+
+                <option>
+                    Part Time
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- ================= WORK MODE ================= -->
+
+        <div>
+
+            <label>
+                Work Mode
+            </label>
+
+            <select name="mode">
+
+                <option>
+                    Hybrid
+                </option>
+
+                <option>
+                    Remote
+                </option>
+
+                <option>
+                    On-site
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- ================= SALARY ================= -->
+
+        <div>
+
+            <label>
+                Salary / Stipend
+            </label>
+
+            <input
+                type="text"
+                name="salary"
+                placeholder="₹10,000 / month"
+            >
+
+        </div>
+
+
+
+        <!-- ================= DEADLINE ================= -->
+
+        <div>
+
+            <label>
+                Deadline
+            </label>
+
+            <input
+                type="text"
+                name="deadline"
+                placeholder="30 Oct 2026"
+            >
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= REQUIRED SKILLS ================= -->
+
+    <label>
+        Required Skills
+    </label>
+
+    <input
+        type="text"
+        name="skills"
+        required
+        placeholder="Python, SQL, Flask"
+    >
+
+
+
+    <!-- ================= JOB DESCRIPTION ================= -->
+
+    <label>
+        Description
+    </label>
+
+    <textarea
+        name="description"
+        required
+    ></textarea>
+
+
+
+    <!-- ================= PUBLISH BUTTON ================= -->
+
+    <button
+        class="btn"
+        type="submit"
+    >
+        Publish Opportunity
+    </button>
+
+
+</form>
+
+
+{% endblock %}
